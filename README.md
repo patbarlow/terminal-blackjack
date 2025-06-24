@@ -1,46 +1,54 @@
-# Nintai - Minimal Solitaire for iOS
+# Terminal Blackjack
 
-## Setup Instructions
+A classic terminal-based Blackjack game written in Python with beautiful ASCII card art.
 
-### Method 1: Create in Xcode (Recommended)
-1. Open Xcode
-2. File → New → Project
-3. iOS → App
-4. Name: "Nintai", Interface: SwiftUI, Language: Swift
-5. Save to this directory (replace existing files)
-6. Copy our source files into the new project
+## Features
 
-### Method 2: Open as Swift Package
-1. Open Xcode
-2. File → Open
-3. Select the `Package.swift` file in this directory
-4. Build and run in iOS Simulator
+- **Full Blackjack Rules**: Classic 21 gameplay with proper dealer AI
+- **ASCII Card Art**: Beautiful terminal graphics with suit symbols (♥♦♣♠)
+- **Betting System**: Start with $100 and manage your bankroll
+- **Clean Interface**: Screen clearing for smooth gameplay experience
+- **Blackjack Payouts**: 3:2 payout for natural blackjack
+- **Smart Ace Handling**: Automatic ace value adjustment (1 or 11)
 
-## Project Structure
-```
-Nintai/
-├── Models/
-│   ├── Card.swift          # Card data model
-│   ├── GameState.swift     # Game state management  
-│   └── SolitaireLogic.swift # Game rules and logic
-├── Views/
-│   ├── CardView.swift      # Card UI component
-│   └── GameView.swift      # Main game interface
-├── ContentView.swift       # Root view
-├── NintaiApp.swift        # App entry point
-└── Assets.xcassets/       # App icons and assets
-```
+## How to Play
 
-## Current Features
-✅ Classic Klondike Solitaire layout
-✅ Pure black theme (Offsuit-inspired)
-✅ Card dealing and display
-✅ New game functionality
-✅ Score and move tracking
+### Prerequisites
+- Python 3.x installed on your system
+- Terminal/Command Prompt
 
-## Next Steps
-- [ ] Drag & drop card interactions
-- [ ] Haptic feedback
-- [ ] Smooth animations
-- [ ] Statistics tracking
-- [ ] Different card themes
+### Installation & Setup
+
+1. **Clone this repository:**
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/terminal-blackjack.git
+   cd terminal-blackjack
+   ```
+
+2. **Run the game:**
+   ```bash
+   python3 blackjack.py
+   ```
+
+### Gameplay
+
+1. **Start** with $100 balance
+2. **Place your bet** (minimum $1)
+3. **Receive 2 cards** (dealer gets 2, one face-down)
+4. **Hit or Stand** to get closer to 21 without going over
+5. **Win conditions:**
+   - Get closer to 21 than dealer without busting
+   - Dealer busts (goes over 21)
+   - Get blackjack (21 with first 2 cards) for 3:2 payout
+
+### Controls
+- `h` - Hit (take another card)
+- `s` - Stand (keep current hand)
+- `y/n` - Play another round
+
+## Game Rules
+
+- **Blackjack**: 21 with first 2 cards (pays 3:2)
+- **Bust**: Hand value over 21 (automatic loss)
+- **Dealer**: Must hit on 16, stands on 17
+- **Card Values**: A=1/11, Face cards=10, Numbers=face value
