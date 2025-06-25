@@ -57,11 +57,11 @@ class Card {
     static getCardBack() {
         return [
             "┌─────────┐",
-            "│░░░░░░░░░│",
-            "│░░░░░░░░░│",
-            "│░░░░░░░░░│",
-            "│░░░░░░░░░│",
-            "│░░░░░░░░░│",
+            "│◇◆◇◆◇◆◇◆◇│",
+            "│◆◇◆◇◆◇◆◇◆│",
+            "│◇◆◇◆◇◆◇◆◇│",
+            "│◆◇◆◇◆◇◆◇◆│",
+            "│◇◆◇◆◇◆◇◆◇│",
             "└─────────┘"
         ];
     }
@@ -198,9 +198,14 @@ class Game {
     displayGameState() {
         this.clearScreen();
         
-        console.log("=".repeat(60));
-        console.log("                    BLACKJACK GAME");
-        console.log("=".repeat(60));
+        console.log(" ________  ___       ________  ________  ___  __          ___  ________  ________  ___  __       ");
+        console.log("|\   __  \|\  \     |\   __  \|\   ____\|\  \|\  \       |\  \|\   __  \|\   ____\|\  \|\  \     ");
+        console.log("\ \  \|\ /\ \  \    \ \  \|\  \ \  \___|\ \  \/  /|_     \ \  \ \  \|\  \ \  \___|\ \  \/  /|_   ");
+        console.log(" \ \   __  \ \  \    \ \   __  \ \  \    \ \   ___  \  __ \ \  \ \   __  \ \  \    \ \   ___  \  ");
+        console.log("  \ \  \|\  \ \  \____\ \  \ \  \ \  \____\ \  \\ \  \|\  \\_\  \ \  \ \  \ \  \____\ \  \\ \  \ ");
+        console.log("   \ \_______\ \_______\ \__\ \__\ \_______\ \__\\ \__\ \________\ \__\ \__\ \_______\ \__\\ \__\");
+        console.log("    \|_______|\|_______|\|__|\|__|\|_______|\|__| \|__|\|________|\|__|\|__|\|_______|\|__| \|__|");
+        console.log("                                                                                                 ");
         console.log();
         
         // Dealer's area
@@ -218,7 +223,7 @@ class Game {
         }
         
         console.log();
-        console.log("-".repeat(60));
+        console.log("-".repeat(100));
         console.log();
         
         // Player's area
@@ -234,14 +239,15 @@ class Game {
         console.log();
         console.log(`Current Bet: $${this.player.currentBet}`);
         console.log(`Balance: $${this.player.balance}`);
-        console.log("=".repeat(60));
+        console.log("=".repeat(100));
     }
 
     async getBet() {
         while (true) {
             console.log(`\nYour balance: $${this.player.balance}`);
             if (this.player.balance <= 0) {
-                console.log("You're out of money! Game over.");
+                console.log("\n💸 You're out of money! Game over.");
+                console.log("Thanks for playing!");
                 return false;
             }
             
@@ -271,14 +277,14 @@ class Game {
             this.displayGameState();
             
             if (this.player.isBust()) {
-                console.log("\nBUST! You exceeded 21.");
-                await question("Press Enter to continue...");
+                console.log("\n💥 BUST! You exceeded 21.");
+                await this.sleep(2000);
                 return;
             }
             
             if (this.player.hasBlackjack() && this.player.hand.length === 2) {
-                console.log("\nBLACKJACK! You got 21!");
-                await question("Press Enter to continue...");
+                console.log("\n🎉 BLACKJACK! You got 21!");
+                await this.sleep(2000);
                 return;
             }
             
@@ -301,7 +307,7 @@ class Game {
             this.dealer.addCard(this.deck.dealCard());
             this.displayGameState();
             console.log("\nDealer hits...");
-            await question("Press Enter to continue...");
+            await this.sleep(1500);
         }
     }
 
@@ -311,36 +317,36 @@ class Game {
         const playerValue = this.player.getHandValue();
         const dealerValue = this.dealer.getHandValue();
         
-        console.log("\n" + "=".repeat(30));
+        console.log("\n" + "=".repeat(40));
         console.log("           ROUND RESULTS");
-        console.log("=".repeat(30));
+        console.log("=".repeat(40));
         
         if (this.player.isBust()) {
-            console.log("You BUSTED! Dealer wins.");
+            console.log("You BUSTED! Dealer wins. 💸");
             // Player already lost bet
         } else if (this.dealer.isBust()) {
-            console.log("Dealer BUSTED! You win!");
+            console.log("Dealer BUSTED! You win! 💰");
             this.player.balance += this.player.currentBet * 2;
         } else if (this.player.hasBlackjack() && !this.dealer.hasBlackjack()) {
-            console.log("BLACKJACK! You win!");
+            console.log("BLACKJACK! You win! 🎉");
             // Blackjack pays 3:2
             this.player.balance += Math.floor(this.player.currentBet * 2.5);
         } else if (this.dealer.hasBlackjack() && !this.player.hasBlackjack()) {
-            console.log("Dealer has BLACKJACK! Dealer wins.");
+            console.log("Dealer has BLACKJACK! Dealer wins. 😔");
             // Player already lost bet
         } else if (playerValue > dealerValue) {
-            console.log("You win!");
+            console.log("You win! 🎊");
             this.player.balance += this.player.currentBet * 2;
         } else if (dealerValue > playerValue) {
-            console.log("Dealer wins.");
+            console.log("Dealer wins. 😞");
             // Player already lost bet
         } else {
-            console.log("It's a tie! Push.");
+            console.log("It's a tie! Push. 🤝");
             this.player.balance += this.player.currentBet;  // Return bet
         }
         
         console.log(`\nYour new balance: $${this.player.balance}`);
-        await question("Press Enter to continue...");
+        await this.sleep(3000); // Auto-continue after 3 seconds
     }
 
     async playRound() {
@@ -377,27 +383,30 @@ class Game {
         return true;
     }
 
+    sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
     async run() {
         this.clearScreen();
         console.log("Welcome to Blackjack!");
         console.log("You start with $100. Good luck!");
-        await question("Press Enter to start...");
+        console.log("\nThe game will continue automatically after each hand.");
+        console.log("Press Ctrl+C to quit at any time.");
+        await question("\nPress Enter to start...");
         
-        while (true) {
+        // Keep playing until bankrupt
+        while (this.player.balance > 0) {
             const continueGame = await this.playRound();
             if (!continueGame) {
                 break;
             }
-            
-            if (this.player.balance <= 0) {
-                console.log("\nYou're out of money! Thanks for playing!");
-                break;
-            }
-            
-            const playAgain = await question("\nDo you want to play another round? (y/n): ");
-            if (playAgain.toLowerCase() !== 'y') {
-                break;
-            }
+        }
+        
+        if (this.player.balance <= 0) {
+            console.log("\n" + "=".repeat(50));
+            console.log("💸 GAME OVER - You're out of money! 💸");
+            console.log("=".repeat(50));
         }
         
         console.log(`\nFinal balance: $${this.player.balance}`);
