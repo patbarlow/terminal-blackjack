@@ -22,7 +22,7 @@ A terminal-based Blackjack game built with Node.js, featuring ASCII card graphic
 ### Installation
 
 ```bash
-git clone https://github.com/yourusername/terminal-blackjack.git
+git clone https://github.com/patbarlow/terminal-blackjack.git
 cd terminal-blackjack
 ```
 
